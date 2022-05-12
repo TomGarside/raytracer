@@ -14,7 +14,6 @@ canvas * createCanvas(int width, int height){
   canvas *newCanvas = malloc(sizeof *newCanvas+sizeof*(newCanvas->canv)*width);
   newCanvas->height = height;
   newCanvas->width = width;
-  
   for(int x=0;x<width;x++){
     newCanvas->canv[x] = malloc(sizeof*(newCanvas->canv[x])*height);
     for(int y=0; y<height; y++){
@@ -43,10 +42,27 @@ void writePixel(canvas * pixCanv, int x, int y, colour*pix){
 
 
 char* canvasToPpm(canvas * ppmCanv){
-  int buflen = ppmCanv->height*ppmCanv->width*4 + 20;
-  char * retbuff  = malloc(sizeof(char)*buflen);
-
-  snprintf(retbuff,buflen,"P3\n%d %d\n255\n",ppmCanv->width, ppmCanv->height); 
+  // calculate actual bytes based on height width etc 
+  int buflen = ppmCanv->height*ppmCanv->width*12+16;
+  char * retbuff  = (char*) malloc(sizeof(char)*buflen);
+  char linebuff[12];
+  int count = 0;
+  
+  snprintf(retbuff,buflen,"P3\n%d %d\n255\n",ppmCanv->width, ppmCanv->height);
+  for(int x=0; x<ppmCanv->width; x++){
+    for(int y=0; y<ppmCanv->height; y++){
+      snprintf(linebuff,12,"%d %d %d ",
+	       (int)round(256.0f*ppmCanv->canv[x][y].r),
+	       (int)round(256.0f*ppmCanv->canv[x][y].g),
+	       (int)round(256.0f*ppmCanv->canv[x][y].b)
+	      );
+      strcat(retbuff,linebuff);
+      if(y%5==0){
+	strcat(retbuff,"\n");
+      }
+	
+      
+    }}
   return(retbuff);
   
     
@@ -137,6 +153,7 @@ int test_Canvas(){
   assert(testCanv->height == 20);
   for(int x=0; x<10; x++){
     for(int y=0; y<20;y++){
+      //fix this int means that it will always be true 
       assert((int)testCanv->canv[x][y].r == 0);
       assert((int)testCanv->canv[x][y].g == 0);
       assert((int)testCanv->canv[x][y].b == 0);
@@ -159,7 +176,7 @@ int test_Canvas(){
   canvas * testPpmCanv = createCanvas(10,20);
   printf("X:%i Y:%i\n",testPpmCanv->width, testPpmCanv->height);
   char* ppm = canvasToPpm(testPpmCanv);
-  printf("%s",ppm);
+  printf("%s\n",ppm);
   assert(strcmp(strtok(ppm,"\n"),"P3\n"));
   assert(strcmp(strtok(NULL,"\n"),"10 20\n"));
   assert(strcmp(strtok(NULL,"\n"),"255\n"));
