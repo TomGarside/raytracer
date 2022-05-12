@@ -43,29 +43,35 @@ void writePixel(canvas * pixCanv, int x, int y, colour*pix){
 
 char* canvasToPpm(canvas * ppmCanv){
   // calculate actual bytes based on height width etc 
-  int buflen = ppmCanv->height*ppmCanv->width*12+16;
+  int buflen = (ppmCanv->height*ppmCanv->width)*13+16;
   char * retbuff  = (char*) malloc(sizeof(char)*buflen);
-  char linebuff[12];
+  printf("%d\n",buflen);
+  char linebuff[13];
   int count = 0;
   
   snprintf(retbuff,buflen,"P3\n%d %d\n255\n",ppmCanv->width, ppmCanv->height);
   for(int x=0; x<ppmCanv->width; x++){
     for(int y=0; y<ppmCanv->height; y++){
-      snprintf(linebuff,12,"%d %d %d ",
-	       (int)round(256.0f*ppmCanv->canv[x][y].r),
-	       (int)round(256.0f*ppmCanv->canv[x][y].g),
-	       (int)round(256.0f*ppmCanv->canv[x][y].b)
+      snprintf(linebuff,13,"%d %d %d ",
+	       mapColour(ppmCanv->canv[x][y].r),
+	       mapColour(ppmCanv->canv[x][y].g),
+	       mapColour(ppmCanv->canv[x][y].b)
 	      );
       strcat(retbuff,linebuff);
-      if(y%5==0){
+      if(y%3==0){
 	strcat(retbuff,"\n");
-      }
+        }
 	
       
     }}
+  strcat(retbuff,"\n");
   return(retbuff);
   
     
+}
+
+int mapColour(float num ){
+  return (int)fmax(0,fmin(255,255*(num)));
 }
 
 colour* addColour(colour* x, colour*y){
@@ -154,9 +160,9 @@ int test_Canvas(){
   for(int x=0; x<10; x++){
     for(int y=0; y<20;y++){
       //fix this int means that it will always be true 
-      assert((int)testCanv->canv[x][y].r == 0);
-      assert((int)testCanv->canv[x][y].g == 0);
-      assert((int)testCanv->canv[x][y].b == 0);
+      //assert((int)testCanv->canv[x][y].r == 0);
+      //assert((int)testCanv->canv[x][y].g == 0);
+      //assert((int)testCanv->canv[x][y].b == 0);
           
       }
   }
@@ -174,14 +180,25 @@ int test_Canvas(){
   
   //build ppm header
   canvas * testPpmCanv = createCanvas(10,20);
-  printf("X:%i Y:%i\n",testPpmCanv->width, testPpmCanv->height);
   char* ppm = canvasToPpm(testPpmCanv);
-  printf("%s\n",ppm);
   assert(strcmp(strtok(ppm,"\n"),"P3\n"));
   assert(strcmp(strtok(NULL,"\n"),"10 20\n"));
   assert(strcmp(strtok(NULL,"\n"),"255\n"));
   freeCanvas(testPpmCanv);
   free(ppm);
+
+  //build ppm body 
+  canvas * testPpmCanvPix = createCanvas(5,3);
+  colour * c1pix = createColour(1.5f,0.0f,0.0f);
+  colour * c2pix = createColour(0.0f,0.5f,0.0f);
+  colour * c3pix = createColour(-0.5f,0.0f,1.0f);
+  writePixel(testPpmCanvPix,0,0,c1pix);
+  writePixel(testPpmCanvPix,2,1,c2pix);
+  writePixel(testPpmCanvPix,4,2,c3pix);
+  char* ppmPix = canvasToPpm(testPpmCanvPix);
+  printf("%s\n",ppmPix);
+  freeCanvas(testPpmCanvPix);
+  free(ppmPix);
   		
   return 1;
 }

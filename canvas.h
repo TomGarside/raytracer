@@ -43,4 +43,6 @@ char* canvasToPpm(canvas* saveCanv);
 
 int test_Canvas();
 
+int mapColour(float);
+
 #endif //CANVAS_H
