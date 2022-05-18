@@ -45,7 +45,6 @@ char* canvasToPpm(canvas * ppmCanv){
   // calculate actual bytes based on height width etc 
   int buflen = (ppmCanv->height*ppmCanv->width)*13+16;
   char * retbuff  = (char*) malloc(sizeof(char)*buflen);
-  printf("%d\n",buflen);
   char linebuff[13];
   int count = 0;
   
@@ -58,11 +57,11 @@ char* canvasToPpm(canvas * ppmCanv){
 	       mapColour(ppmCanv->canv[x][y].b)
 	      );
       strcat(retbuff,linebuff);
-      if(y%3==0){
+      count+=1;
+      if(count == 5){
+	count = 0; 
 	strcat(retbuff,"\n");
         }
-	
-      
     }}
   strcat(retbuff,"\n");
   return(retbuff);
@@ -160,9 +159,9 @@ int test_Canvas(){
   for(int x=0; x<10; x++){
     for(int y=0; y<20;y++){
       //fix this int means that it will always be true 
-      //assert((int)testCanv->canv[x][y].r == 0);
-      //assert((int)testCanv->canv[x][y].g == 0);
-      //assert((int)testCanv->canv[x][y].b == 0);
+      assert((int)testCanv->canv[x][y].r == 0);
+      assert((int)testCanv->canv[x][y].g == 0);
+      assert((int)testCanv->canv[x][y].b == 0);
           
       }
   }
@@ -192,13 +191,17 @@ int test_Canvas(){
   colour * c1pix = createColour(1.5f,0.0f,0.0f);
   colour * c2pix = createColour(0.0f,0.5f,0.0f);
   colour * c3pix = createColour(-0.5f,0.0f,1.0f);
+  char* testStr = "P3\n5 3\n255\n255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 127 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 \n\n" ;
   writePixel(testPpmCanvPix,0,0,c1pix);
   writePixel(testPpmCanvPix,2,1,c2pix);
   writePixel(testPpmCanvPix,4,2,c3pix);
   char* ppmPix = canvasToPpm(testPpmCanvPix);
-  printf("%s\n",ppmPix);
+  assert(strcmp(ppmPix,testStr)==0);
+  //test that the string ends with newline 
+  assert(ppmPix[strlen(ppmPix)-1]=='\n'); 
   freeCanvas(testPpmCanvPix);
   free(ppmPix);
+ 
   		
   return 1;
 }
