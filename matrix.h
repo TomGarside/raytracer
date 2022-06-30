@@ -12,12 +12,17 @@ typedef struct matrix {
   float * rows[]; 
 }matrix;
 
-matrix * createMatrix();
+matrix * createMatrix(int, int);
 
 void setCell(matrix *,int,int, float);
 
 float getCell(matrix *, int,int);
 
+int matEquals(matrix*,matrix*);
+
+
 int  test_matrix();
+
+
 
 #endif //MATRIX_H
