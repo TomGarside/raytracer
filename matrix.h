@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include "tuple.h"
 typedef struct matrix {
   int height;
   int width ;
@@ -14,13 +14,15 @@ typedef struct matrix {
 
 matrix * createMatrix(int, int);
 
-void setCell(matrix *,int,int, float);
+void setCell(matrix* ,int, int, float);
 
-float getCell(matrix *, int,int);
+float getCell(matrix* , int, int);
 
-int matEquals(matrix*,matrix*);
+int matEquals(matrix*, matrix*);
 
-matrix* matMultiply(matrix*,matrix*);
+matrix* matMultiply(matrix*, matrix*);
+
+tuple* matTupleMultiply(matrix*, tuple*);
 
 void printMatrix(matrix*);
 

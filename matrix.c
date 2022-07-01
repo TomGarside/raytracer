@@ -70,6 +70,36 @@ void printMatrix(matrix* mat){
 }
 
 
+tuple* matTupleMultiply(matrix* mat, tuple* tup){
+    float newX=0.0f;
+    newX += getCell(mat,0,0)*tup->x;
+    newX += getCell(mat,0,1)*tup->y;
+    newX += getCell(mat,0,2)*tup->z;
+    newX += getCell(mat,0,3)*tup->w;
+
+    float newY=0.0f;
+    newY += getCell(mat,1,0)*tup->x;	
+    newY += getCell(mat,1,1)*tup->y;
+    newY += getCell(mat,1,2)*tup->z;
+    newY += getCell(mat,1,3)*tup->w;
+
+    float newZ=0.0f;
+    newZ += getCell(mat,2,0)*tup->x;	
+    newZ += getCell(mat,2,1)*tup->y;
+    newZ += getCell(mat,2,2)*tup->z;
+    newZ += getCell(mat,2,3)*tup->w;
+
+    float newW=0.0f;
+    newW += getCell(mat,3,0)*tup->x;	
+    newW += getCell(mat,3,1)*tup->y;
+    newW += getCell(mat,3,2)*tup->z;
+    newW += getCell(mat,3,3)*tup->w;
+
+    return createTuple(newX, newY, newZ, newW);
+    
+}
+		       
+
 int test_matrix(){
   //4x4 matrix test
   matrix* testMat1 = createMatrix(4,4);
@@ -226,6 +256,34 @@ int test_matrix(){
 
   matrix* testMat10 = matMultiply(testMat7,testMat8); 
   assert(matrixEquals(testMat9,testMat10));
-  
+
+  // multiply a matrix by tuple 
+  tuple* testTup1 = createTuple(1.0f,2.0f,3.0f,1.0f);
+  tuple* testTup2 = createTuple(18.0f,24.0f,33.0f,1.0f);
+  matrix* testMat11 = createMatrix(4,4);
+  setCell(testMat11,0,0,1.0f);
+  setCell(testMat11,0,1,2.0f);
+  setCell(testMat11,0,2,3.0f);
+  setCell(testMat11,0,3,4.0f);
+
+  setCell(testMat11,1,0,2.0f);
+  setCell(testMat11,1,1,4.0f);
+  setCell(testMat11,1,2,4.0f);
+  setCell(testMat11,1,3,2.0f);
+
+  setCell(testMat11,2,0,8.0f);
+  setCell(testMat11,2,1,6.0f);
+  setCell(testMat11,2,2,4.0f);
+  setCell(testMat11,2,3,1.0f);
+
+  setCell(testMat11,3,0,0.0f);
+  setCell(testMat11,3,1,0.0f);
+  setCell(testMat11,3,2,0.0f);
+  setCell(testMat11,3,3,1.0f);
+
+  tuple* testTup3 = matTupleMultiply(testMat11,testTup1);
+ 
+  printTuple(testTup3);
+    
   return 1; 
 }
