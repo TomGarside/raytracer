@@ -59,6 +59,18 @@ matrix* matMultiply(matrix* matA, matrix* matB){
   return newMat;
 }
 
+matrix* identityMatrix(int width,int height){
+  matrix* newMat = createMatrix(width,height);
+  for( int x=0; x<width; x++){
+    for(int y=0; y<height;y++){
+      if(x==y){
+        setCell(newMat,x,y,1.0f);
+      }
+    }
+  }
+  return newMat; 
+}
+
 void printMatrix(matrix* mat){
   for( int x=0; x<mat->width; x++){
     printf("| ");
@@ -283,7 +295,12 @@ int test_matrix(){
 
   tuple* testTup3 = matTupleMultiply(testMat11,testTup1);
  
-  printTuple(testTup3);
-    
+  assert(testTup3->x == 18.0f);
+  assert(testTup3->y == 24.0f);
+  assert(testTup3->z == 33.0f);
+  assert(testTup3->w == 1.0f);
+
+  printMatrix(identityMatrix(4,4));
+  
   return 1; 
 }

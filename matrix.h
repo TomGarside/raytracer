@@ -24,6 +24,8 @@ matrix* matMultiply(matrix*, matrix*);
 
 tuple* matTupleMultiply(matrix*, tuple*);
 
+matrix* identityMatrix(int, int);
+
 void printMatrix(matrix*);
 
 int  test_matrix();
