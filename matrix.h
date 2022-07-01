@@ -20,6 +20,9 @@ float getCell(matrix *, int,int);
 
 int matEquals(matrix*,matrix*);
 
+matrix* matMultiply(matrix*,matrix*);
+
+void printMatrix(matrix*);
 
 int  test_matrix();
 
