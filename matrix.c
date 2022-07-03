@@ -71,6 +71,18 @@ matrix* identityMatrix(int width,int height){
   return newMat; 
 }
 
+matrix* transposeMatrix(matrix* mat){
+   matrix* newMat = createMatrix(mat->width,mat->height);
+   for(int x=0; x<mat->width;x++){
+     for(int y=0; y<mat->height;y++){
+       setCell(newMat,x,y,getCell(mat,y,x));
+     }
+   }
+
+   return newMat;
+}
+
+
 void printMatrix(matrix* mat){
   for( int x=0; x<mat->width; x++){
     printf("| ");
@@ -300,7 +312,52 @@ int test_matrix(){
   assert(testTup3->z == 33.0f);
   assert(testTup3->w == 1.0f);
 
-  printMatrix(identityMatrix(4,4));
+  // transpose matrix
+  matrix* testMat12 = createMatrix(4,4);
+  setCell(testMat12,0,0,0.0f);
+  setCell(testMat12,0,1,9.0f);
+  setCell(testMat12,0,2,3.0f);
+  setCell(testMat12,0,3,0.0f);
+
+  setCell(testMat12,1,0,9.0f);
+  setCell(testMat12,1,1,8.0f);
+  setCell(testMat12,1,2,0.0f);
+  setCell(testMat12,1,3,8.0f);
+
+  setCell(testMat12,2,0,1.0f);
+  setCell(testMat12,2,1,8.0f);
+  setCell(testMat12,2,2,5.0f);
+  setCell(testMat12,2,3,3.0f);
+
+  setCell(testMat12,3,0,0.0f);
+  setCell(testMat12,3,1,0.0f);
+  setCell(testMat12,3,2,5.0f);
+  setCell(testMat12,3,3,8.0f);
+
+
+  matrix* testMat13 = createMatrix(4,4);
+  setCell(testMat13,0,0,0.0f);
+  setCell(testMat13,0,1,9.0f);
+  setCell(testMat13,0,2,1.0f);
+  setCell(testMat13,0,3,0.0f);
+
+  setCell(testMat13,1,0,9.0f);
+  setCell(testMat13,1,1,8.0f);
+  setCell(testMat13,1,2,8.0f);
+  setCell(testMat13,1,3,0.0f);
+
+  setCell(testMat13,2,0,3.0f);
+  setCell(testMat13,2,1,0.0f);
+  setCell(testMat13,2,2,5.0f);
+  setCell(testMat13,2,3,5.0f);
+
+  setCell(testMat13,3,0,0.0f);
+  setCell(testMat13,3,1,8.0f);
+  setCell(testMat13,3,2,3.0f);
+  setCell(testMat13,3,3,8.0f);
+
+
+  assert(matrixEquals(transposeMatrix(testMat12),testMat13));
   
   return 1; 
 }

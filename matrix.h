@@ -26,6 +26,8 @@ tuple* matTupleMultiply(matrix*, tuple*);
 
 matrix* identityMatrix(int, int);
 
+matrix* transposeMatrix(matrix*);
+
 void printMatrix(matrix*);
 
 int  test_matrix();
