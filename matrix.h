@@ -28,6 +28,8 @@ matrix* identityMatrix(int, int);
 
 matrix* transposeMatrix(matrix*);
 
+float matrixDeterminat(matrix*);
+
 void printMatrix(matrix*);
 
 int  test_matrix();

@@ -93,7 +93,11 @@ void printMatrix(matrix* mat){
   }
 }
 
+float matrixDeterminat(matrix* mat){
+  return (getCell(mat,0,0)*getCell(mat,1,1))-(getCell(mat,0,1)*getCell(mat,1,0));
+}
 
+// only works for 4x4
 tuple* matTupleMultiply(matrix* mat, tuple* tup){
     float newX=0.0f;
     newX += getCell(mat,0,0)*tup->x;
@@ -358,6 +362,18 @@ int test_matrix(){
 
 
   assert(matrixEquals(transposeMatrix(testMat12),testMat13));
+
+  assert(matrixEquals(identityMatrix(4,4), transposeMatrix(identityMatrix(4,4))));
+
+  // 2x2 determinant
+  matrix* testMat14 = createMatrix(2,2);
+
+  setCell(testMat14,0,0,1.0f);
+  setCell(testMat14,0,1,5.0f);
+  setCell(testMat14,1,0,-3.0f);
+  setCell(testMat14,1,1,2.0f);
+
+  assert(matrixDeterminat(testMat14) == 17.0f);
   
   return 1; 
 }
