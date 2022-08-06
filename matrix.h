@@ -30,6 +30,12 @@ matrix* transposeMatrix(matrix*);
 
 float matrixDeterminat(matrix*);
 
+matrix* subMATRIX(matrix*,int,int);
+
+float matrixMinors(matrix*, int, int);
+
+float matrixCofactor(matrix*, int, int);
+
 void printMatrix(matrix*);
 
 int  test_matrix();

@@ -128,6 +128,40 @@ tuple* matTupleMultiply(matrix* mat, tuple* tup){
 }
 		       
 
+matrix* subMatrix(matrix* mat, int xCut, int yCut){
+  matrix* newMat = createMatrix(mat->width-1, mat->height-1);
+  int newX=0;
+  int newY=0;
+  
+  for(int x=0; x<mat->width;x++){
+    if(x != xCut){
+    for(int y=0; y<mat->height;y++){
+      if (x != xCut && y != yCut){
+	setCell(newMat,newX,newY,getCell(mat,x,y));
+	newY++;
+	}
+    }
+    newY=0;
+    newX++;
+    }
+  }
+  return newMat;
+}
+
+float matrixMinors(matrix* mat, int xCut, int yCut){
+  float retVal = 0; 
+  assert(xCut<mat->width && yCut<mat->height);
+  retVal=matrixDeterminat(subMatrix(mat,xCut,yCut));
+  return retVal;
+}
+
+float matrixCofactor(matrix* mat, int xCut, int yCut){
+  float minor = matrixMinors(mat,xCut,yCut);
+  if(! ((xCut+yCut) % 2 == 0))
+     minor = minor * -1.0f;
+  return minor;
+}
+
 int test_matrix(){
   //4x4 matrix test
   matrix* testMat1 = createMatrix(4,4);
@@ -359,8 +393,7 @@ int test_matrix(){
   setCell(testMat13,3,1,8.0f);
   setCell(testMat13,3,2,3.0f);
   setCell(testMat13,3,3,8.0f);
-
-
+  
   assert(matrixEquals(transposeMatrix(testMat12),testMat13));
 
   assert(matrixEquals(identityMatrix(4,4), transposeMatrix(identityMatrix(4,4))));
@@ -374,6 +407,96 @@ int test_matrix(){
   setCell(testMat14,1,1,2.0f);
 
   assert(matrixDeterminat(testMat14) == 17.0f);
+
+  // submatrix
+
+  matrix* testMat15 = createMatrix(3,3);
+  setCell(testMat15,0,0,1.0f);
+  setCell(testMat15,0,1,5.0f);
+  setCell(testMat15,0,2,0.0f);
   
+  setCell(testMat15,1,0,-3.0f);
+  setCell(testMat15,1,1,2.0f);
+  setCell(testMat15,1,2,7.0f);
+  
+  setCell(testMat15,2,0,0.0f);
+  setCell(testMat15,2,1,6.0f);
+  setCell(testMat15,2,2,-3.0f);
+
+  matrix* testMat16 = createMatrix(2,2);
+  setCell(testMat16,0,0,-3.0f);
+  setCell(testMat16,0,1,2.0f);
+  setCell(testMat16,1,0,0.0f);
+  setCell(testMat16,1,1,6.0f);
+
+  assert(matrixEquals(testMat16,subMatrix(testMat15,0,2)));
+  
+  matrix* testMat17 = createMatrix(4,4);
+  setCell(testMat17,0,0,-6.0f);
+  setCell(testMat17,0,1,1.0f);
+  setCell(testMat17,0,2,1.0f);
+  setCell(testMat17,0,3,6.0f);
+
+  setCell(testMat17,1,0,-8.0f);
+  setCell(testMat17,1,1,5.0f);
+  setCell(testMat17,1,2,8.0f);
+  setCell(testMat17,1,3,6.0f);
+
+  setCell(testMat17,2,0,-1.0f);
+  setCell(testMat17,2,1,0.0f);
+  setCell(testMat17,2,2,8.0f);
+  setCell(testMat17,2,3,2.0f);
+
+  setCell(testMat17,3,0,-7.0f);
+  setCell(testMat17,3,1,1.0f);
+  setCell(testMat17,3,2,-1.0f);
+  setCell(testMat17,3,3,1.0f);
+
+  matrix* testMat18 = createMatrix(3,3);
+  setCell(testMat18,0,0,-6.0f);
+  setCell(testMat18,0,1,1.0f);
+  setCell(testMat18,0,2,6.0f);
+
+  setCell(testMat18,1,0,-8.0f);
+  setCell(testMat18,1,1,8.0f);
+  setCell(testMat18,1,2,6.0f);
+
+  setCell(testMat18,2,0,-7.0f);
+  setCell(testMat18,2,1,-1.0f);
+  setCell(testMat18,2,2,1.0f);
+
+  assert(matrixEquals(testMat18,subMatrix(testMat17,2,1)));
+
+  matrix* testMat19 = createMatrix(3,3);
+  setCell(testMat19,0,0,3.0f);
+  setCell(testMat19,0,1,5.0f);
+  setCell(testMat19,0,2,0.0f);
+
+  setCell(testMat19,1,0,2.0f);
+  setCell(testMat19,1,1,-1.0f);
+  setCell(testMat19,1,2,-7.0f);
+
+  setCell(testMat19,2,0,6.0f);
+  setCell(testMat19,2,1,-1.0f);
+  setCell(testMat19,2,2,5.0f);
+
+  assert(matrixMinors(testMat19,1,0) == 25.0f);
+
+  matrix* testMat20 = createMatrix(3,3);
+  setCell(testMat20,0,0,3.0f);
+  setCell(testMat20,0,1,5.0f);
+  setCell(testMat20,0,2,0.0f);
+
+  setCell(testMat20,1,0,2.0f);
+  setCell(testMat20,1,1,-1.0f);
+  setCell(testMat20,1,2,-7.0f);
+
+  setCell(testMat20,2,0,6.0f);
+  setCell(testMat20,2,1,-1.0f);
+  setCell(testMat20,2,2,5.0f);
+
+  assert(matrixCofactor(testMat20,0,0) == -12.0f);
+  assert(matrixCofactor(testMat20,1,0) == -25.0f);
+   
   return 1; 
 }
