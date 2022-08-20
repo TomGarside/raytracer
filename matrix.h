@@ -36,6 +36,8 @@ float matrixMinors(matrix*, int, int);
 
 float matrixCofactor(matrix*, int, int);
 
+float matrixDeterminant(matrix*);
+
 void printMatrix(matrix*);
 
 int  test_matrix();

@@ -162,6 +162,18 @@ float matrixCofactor(matrix* mat, int xCut, int yCut){
   return minor;
 }
 
+float matrixDeterminant(matrix* mat){
+  float retVal = 0.0f;
+  
+  if(mat->width>2){
+    for(int e=0; e<mat->width; e++){
+      retVal += matrixCofactor(mat,0,e) * getCell(mat,0,e);
+    }
+  }
+  return retVal; 
+
+}
+
 int test_matrix(){
   //4x4 matrix test
   matrix* testMat1 = createMatrix(4,4);
@@ -497,6 +509,25 @@ int test_matrix(){
 
   assert(matrixCofactor(testMat20,0,0) == -12.0f);
   assert(matrixCofactor(testMat20,1,0) == -25.0f);
-   
+
+  //Matrix determinant
+  matrix* testMat21 = createMatrix(3,3);
+  setCell(testMat21,0,0,1.0f);
+  setCell(testMat21,0,1,2.0f);
+  setCell(testMat21,0,2,6.0f);
+
+  setCell(testMat21,1,0,-5.0f);
+  setCell(testMat21,1,1,8.0f);
+  setCell(testMat21,1,2,-4.0f);
+
+  setCell(testMat21,2,0,2.0f);
+  setCell(testMat21,2,1,6.0f);
+  setCell(testMat21,2,2,4.0f);
+
+  assert(matrixCofactor(testMat21,0,0) == 56);
+  assert(matrixCofactor(testMat21,0,1) == 12);
+  assert(matrixCofactor(testMat21,0,2) == -46);
+  assert(matrixDeterminant(testMat21) == -196);
+  
   return 1; 
 }
