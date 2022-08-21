@@ -1,3 +1,4 @@
+
 #ifndef MATRIX_H
 #define MATRIX_H
 
@@ -39,6 +40,8 @@ float matrixCofactor(matrix*, int, int);
 float matrixDeterminants(matrix*);
 
 int isMatrixInvertable(matrix*);
+
+matrix* invertMatrix(matrix*);
 
 void printMatrix(matrix*);
 

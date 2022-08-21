@@ -585,28 +585,34 @@ int test_matrix(){
 
   assert(isMatrixInvertable(testMat23));
 
-  matrix* testMat24 = createMatrix(4,4);
-  setCell(testMat24,0,0,-4.0f);
-  setCell(testMat24,0,1,2.0f);
-  setCell(testMat24,0,2,-2.0f);
-  setCell(testMat24,0,3,-3.0f);
+  matrix* testMat26 = createMatrix(4,4);
+  setCell(testMat26,0,0,4.21805f);
+  setCell(testMat26,0,1,0.45113f);
+  setCell(testMat26,0,2,0.24060f);
+  setCell(testMat26,0,3,-0.04511f);
   
-  setCell(testMat24,1,0,9.0f);
-  setCell(testMat24,1,1,6.0f);
-  setCell(testMat24,1,2,2.0f);
-  setCell(testMat24,1,3,6.0f);
+  setCell(testMat26,1,0,-0.80827f);
+  setCell(testMat26,1,1,-1.45677f);
+  setCell(testMat26,1,2,-0.44361f);
+  setCell(testMat26,1,3,0.52068f);
 
-  setCell(testMat24,2,0,0.0f);
-  setCell(testMat24,2,1,-5.0f);
-  setCell(testMat24,2,2,1.0f);
-  setCell(testMat24,2,3,-5.0f);
+  setCell(testMat26,2,0,-0.07895f);
+  setCell(testMat26,2,1,-0.22368f);
+  setCell(testMat26,2,2,-0.05263f);
+  setCell(testMat26,2,3,0.19737f);
 
-  setCell(testMat24,3,0,0.0f);
-  setCell(testMat24,3,1,0.0f);
-  setCell(testMat24,3,2,0.0f);
-  setCell(testMat24,3,3,0.0f);
+  setCell(testMat26,3,0,-0.52256f);
+  setCell(testMat26,3,1,-0.81391f);
+  setCell(testMat26,3,2,-0.30075f);
+  setCell(testMat26,3,3,0.30639f);
 
-  assert(!isMatrixInvertable(testMat24));
+  matrix* testMat27 = matrixInverse(testMat25);
+  assert(matrixDeterminats(testMat25) == 532.0f);
+  assert(matrixCofactor(testMat25,2,3));
+  assert(getCell(testMat27,3,2) == -160.0f/532.0f);
+  assert(matrixCofactor(testMat25) == 105.0f);
+  assert(getCell(testMat27,2,3) == 105.0f/532.0f);
+  assert(matrixEquals(testMat26,testMat27);
 
 
 
