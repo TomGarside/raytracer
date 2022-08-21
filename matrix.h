@@ -19,7 +19,7 @@ void setCell(matrix* ,int, int, float);
 
 float getCell(matrix* , int, int);
 
-int matEquals(matrix*, matrix*);
+int matEquals(matrix*, matrix*,int);
 
 matrix* matMultiply(matrix*, matrix*);
 
