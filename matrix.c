@@ -771,7 +771,53 @@ int test_matrix(){
 
   assert(matrixEquals(matrixInverse(testMat30),testMat31,round)); 
 
+  matrix* testMat32 = createMatrix(4,4);
+  setCell(testMat32,0,0,9.0f);
+  setCell(testMat32,0,1,3.0f);
+  setCell(testMat32,0,2,0.0f);
+  setCell(testMat32,0,3,9.0f);
+
+  setCell(testMat32,1,0,-5.0f);
+  setCell(testMat32,1,1,-2.0f);
+  setCell(testMat32,1,2,-6.0f);
+  setCell(testMat32,1,3,-3.0f);
+
+  setCell(testMat32,2,0,-4.0f);
+  setCell(testMat32,2,1,9.0f);
+  setCell(testMat32,2,2,6.0f);
+  setCell(testMat32,2,3,4.0f);
+
+  setCell(testMat32,3,0,-7.0f);
+  setCell(testMat32,3,1,6.0f);
+  setCell(testMat32,3,2,6.0f);
+  setCell(testMat32,3,3,2.0f);
+ 
+  matrix* testMat33 = createMatrix(4,4);
+  setCell(testMat33,0,0,-0.04074f);
+  setCell(testMat33,0,1,-0.07778f);
+  setCell(testMat33,0,2,0.14444f);
+  setCell(testMat33,0,3,-0.22222f);
   
+  setCell(testMat33,1,0,-0.07778f);
+  setCell(testMat33,1,1,0.03333f);
+  setCell(testMat33,1,2,0.36667f);
+  setCell(testMat33,1,3,-0.33333f);
+
+  setCell(testMat33,2,0,-0.02901f);
+  setCell(testMat33,2,1,-0.14630f);
+  setCell(testMat33,2,2,-0.10926f);
+  setCell(testMat33,2,3,0.12963f);
+
+  setCell(testMat33,3,0,0.17778f);
+  setCell(testMat33,3,1,0.06667f);
+  setCell(testMat33,3,2,-0.26667f);
+  setCell(testMat33,3,3,0.33333f);
+
+  matrix* testMat34 = matMultiply(testMat32, testMat33);
+  
+  matrix* testMat35 = matMultiply(testMat34,matrixInverse(testMat33));
+
+  assert(matrixEquals(testMat32,testMat35,round));
   
   return 1; 
 }
